@@ -15,7 +15,7 @@ class ListsController < ApplicationController
     end
 
     def show
-        @list = List.find(params[:id])
+        @list = List.find_by_id(params[:id])
     end
 
     def edit
@@ -24,18 +24,34 @@ class ListsController < ApplicationController
 
     def update
         @list = List.find(params[:id])
-        @list.update(artist_params)
-        redirect_to list_path(@list)
+
+        if @list.update(list_params)
+            redirect_to list_path(@list)
+        else
+            render 'edit'
+        end
+    end
+
+    def create
+        @list = List.new(list_params)
+    
+        if @list.save
+            redirect_to list_path(@list)
+        else
+            render 'new'
+        end
     end
 
     def destroy
-        List.destroy(params[:id])
+        @list = List.find(params[:id])
+        @list.destroy
+        redirect_to lists_path
     end
 
     private
 
     def list_params
-        params.require(:list).permit(:name)
+        params.require(:list).permit(:name, :description)
     end
 
 end
