@@ -1,13 +1,12 @@
 <div class="container">
   <h2><%= @list.name %></h2>
   <p class="list-description"><%= @list.description %></p>
-  <% items = @list.items %>
   <h4>List:</h4>
-  <% if !items.any? %>
+  <% if !@list.items.any? %>
     <%= "<p>-empty-</p>".html_safe %>
   <% else %>
     <ul>
-      <% items.each do |item| %>
+      <% @list.items.each do |item| %>
         <li><%= item.quantity %> <%= item.name %> <%= button_to 'Remove', list_item_path(@list, item), method: :delete%></li>
       <% end %>
     </ul>

@@ -4,22 +4,21 @@
         <p>You have <%= @lists.count %> list(s)</p>
     </div>
     <div class="lists">
-        <%= @lists.each do |l|%>
+        <% @lists.each do |l|%>
             <div class="lists details">
                 <h2 class="lists name"><%= link_to l.name, list_path(l) %></h2>
-                <p class="lists description"><%=l.description%>
+                <p class="lists description"><%= l.description %>
+                <ul>
+                    <% l.items.each do |i|%>
+                        <li><%= i.quantity %> <%= i.name %></li>
+                    <% end %>
+                </ul>
+                <ul class = "lists nav">
+                    <li><%= button_to 'Show', list_path(l), method: :get%></li>
+                    <li><%= button_to 'Edit', list_path(l), method: :get%></li>
+                    <li><%= button_to 'Delete', list_path(l), method: :delete, data: { confirm: 'Are you sure?' } %></li>
+                </ul>
             </div>
-            <ul>
-                <%= items = l.items %>
-                <%= items.each do |i|%>
-                    <li><%= i.quantity %> <%= i.name %></li>
-                <% end %>
-            </ul>
-            <ul class = "lists nav">
-                <li><%= button_to 'Show', list_path(l), method: :get%></li>
-                <li><%= button_to 'Edit', list_path(l), method: :get%></li>
-                <li><%= button_to 'Delete', list_path(l), method: :delete, data: { confirm: 'Are you sure?' } %></li>
-            </ul>
         <% end %><br>
         <%= button_to "Create New List", new_list_path, method: :get %>
     </div>
